@@ -74,7 +74,7 @@ function UserForm() {
 
       {/* Tab Content */}
       <div className="px-4 text-sm sm:text-base">
-        {activeTab === "Basic Details" && <p>Basic user details go here shanuka imantha.</p>}
+        {activeTab === "Basic Details" && <p>Basic user details go here </p>}
         {activeTab === "Personal Details" && <p>Personal information shown here.</p>}
         {activeTab === "Contact Details" && <p>Contact details will appear here.</p>}
         {activeTab === "Job Details" && <JobDetailsForm />}
