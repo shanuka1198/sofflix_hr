@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import Select from "react-select";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaTrash } from "react-icons/fa";
 import { IoMdSave } from "react-icons/io";
-import { FaTrash } from "react-icons/fa";
 
 const JobForm = () => {
   const [jobCategory, setJobCategory] = useState([]);
@@ -15,49 +14,56 @@ const JobForm = () => {
     { skill: "", experience: "", certification: "" },
   ]);
 
-  const jobCategoryOptions = [
-    { label: "IT", value: "it" },
-    { label: "HR", value: "hr" },
-  ];
-  const designationOptions = [
-    { label: "Developer", value: "developer" },
-    { label: "Manager", value: "manager" },
-  ];
-  const locationOptions = [
-    { label: "Colombo", value: "colombo" },
-    { label: "Kandy", value: "kandy" },
-  ];
-  const unitOptions = [
-    { label: "Unit A", value: "unitA" },
-    { label: "Unit B", value: "unitB" },
-  ];
-  const personOptions = [
-    { label: "Shanuka", value: "shanuka" },
-    { label: "Imantha", value: "imantha" },
-  ];
-
-  const addReportingRow = () => {
-    setReportingRows([
-      ...reportingRows,
-      { skill: "", experience: "", certification: "" },
-    ]);
-  };
-
-  const deleteReportingRow = (index) => {
-    const updatedRows = [...reportingRows];
-    updatedRows.splice(index, 1);
-    setReportingRows(updatedRows);
-  };
-
-  const handleReportingChange = (index, field, value) => {
-    const updatedRows = [...reportingRows];
-    updatedRows[index][field] = value;
-    setReportingRows(updatedRows);
-  };
+  const jobCategoryOptions = [];
+  const designationOptions = [];
+  const locationOptions = [];
+  const unitOptions = [];
+  const personOptions = [];
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted!");
+    // form submission logic here
+  };
+
+  const addReportingRow = () => {
+    setReportingRows([...reportingRows, { skill: "", experience: "", certification: "" }]);
+  };
+
+  const deleteReportingRow = (index) => {
+    const updated = reportingRows.filter((_, i) => i !== index);
+    setReportingRows(updated);
+  };
+
+  const handleReportingChange = (index, field, value) => {
+    const updated = [...reportingRows];
+    updated[index][field] = value;
+    setReportingRows(updated);
+  };
+
+  const selectStyles = {
+    control: (base) => ({
+      ...base,
+      minHeight: 10,
+      height: 34,
+      fontSize: 14,
+    }),
+    input: (base) => ({
+      ...base,
+      fontSize: 14,
+    }),
+    multiValueLabel: (base) => ({
+      ...base,
+      fontSize: 13,
+    }),
+    placeholder: (base) => ({
+      ...base,
+      fontSize: 14,
+    }),
+    valueContainer: (base) => ({
+      ...base,
+      paddingTop: 2,
+      paddingBottom: 2,
+    }),
   };
 
   return (
@@ -89,34 +95,10 @@ const JobForm = () => {
                 options={jobCategoryOptions}
                 value={jobCategory}
                 onChange={setJobCategory}
-                className="w-[360px]"
+                className="w-full"
                 isClearable
                 classNamePrefix="custom-select"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    minHeight: 10,
-                    height: 34,
-                    fontSize: 14,
-                  }),
-                  input: (base) => ({
-                    ...base,
-                    fontSize: 14,
-                  }),
-                  multiValueLabel: (base) => ({
-                    ...base,
-                    fontSize: 13,
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    fontSize: 14,
-                  }),
-                  valueContainer: (base) => ({
-                    ...base,
-                    paddingTop: 2,
-                    paddingBottom: 2,
-                  }),
-                }}
+                styles={selectStyles}
               />
             </div>
 
@@ -129,34 +111,10 @@ const JobForm = () => {
                 options={designationOptions}
                 value={designation}
                 onChange={setDesignation}
-                className="w-[350px]"
+                className="w-full"
                 isClearable
                 classNamePrefix="custom-select"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    minHeight: 10,
-                    height: 34,
-                    fontSize: 14,
-                  }),
-                  input: (base) => ({
-                    ...base,
-                    fontSize: 14,
-                  }),
-                  multiValueLabel: (base) => ({
-                    ...base,
-                    fontSize: 13,
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    fontSize: 14,
-                  }),
-                  valueContainer: (base) => ({
-                    ...base,
-                    paddingTop: 2,
-                    paddingBottom: 2,
-                  }),
-                }}
+                styles={selectStyles}
               />
             </div>
           </div>
@@ -171,34 +129,10 @@ const JobForm = () => {
                 options={locationOptions}
                 value={location}
                 onChange={setLocation}
-                className="w-[350px]"
+                className="w-full"
                 isClearable
                 classNamePrefix="custom-select"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    minHeight: 10,
-                    height: 34,
-                    fontSize: 14,
-                  }),
-                  input: (base) => ({
-                    ...base,
-                    fontSize: 14,
-                  }),
-                  multiValueLabel: (base) => ({
-                    ...base,
-                    fontSize: 13,
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    fontSize: 14,
-                  }),
-                  valueContainer: (base) => ({
-                    ...base,
-                    paddingTop: 2,
-                    paddingBottom: 2,
-                  }),
-                }}
+                styles={selectStyles}
               />
             </div>
 
@@ -211,34 +145,10 @@ const JobForm = () => {
                 options={unitOptions}
                 value={unit}
                 onChange={setUnit}
-                className="w-[350px]"
+                className="w-full"
                 isClearable
                 classNamePrefix="custom-select"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    minHeight: 10,
-                    height: 34,
-                    fontSize: 14,
-                  }),
-                  input: (base) => ({
-                    ...base,
-                    fontSize: 14,
-                  }),
-                  multiValueLabel: (base) => ({
-                    ...base,
-                    fontSize: 13,
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    fontSize: 14,
-                  }),
-                  valueContainer: (base) => ({
-                    ...base,
-                    paddingTop: 2,
-                    paddingBottom: 2,
-                  }),
-                }}
+                styles={selectStyles}
               />
             </div>
           </div>
@@ -258,34 +168,10 @@ const JobForm = () => {
                 options={personOptions}
                 value={manager}
                 onChange={setManager}
-                className="w-[360px]"
+                className="w-full"
                 isClearable
                 classNamePrefix="custom-select"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    minHeight: 10,
-                    height: 34,
-                    fontSize: 14,
-                  }),
-                  input: (base) => ({
-                    ...base,
-                    fontSize: 14,
-                  }),
-                  multiValueLabel: (base) => ({
-                    ...base,
-                    fontSize: 13,
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    fontSize: 14,
-                  }),
-                  valueContainer: (base) => ({
-                    ...base,
-                    paddingTop: 2,
-                    paddingBottom: 2,
-                  }),
-                }}
+                styles={selectStyles}
               />
             </div>
 
@@ -297,34 +183,10 @@ const JobForm = () => {
                 options={personOptions}
                 value={additionalManager}
                 onChange={setAdditionalManager}
-                className="w-[360px]"
+                className="w-full"
                 isClearable
                 classNamePrefix="custom-select"
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    minHeight: 10,
-                    height: 34,
-                    fontSize: 14,
-                  }),
-                  input: (base) => ({
-                    ...base,
-                    fontSize: 14,
-                  }),
-                  multiValueLabel: (base) => ({
-                    ...base,
-                    fontSize: 13,
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    fontSize: 14,
-                  }),
-                  valueContainer: (base) => ({
-                    ...base,
-                    paddingTop: 2,
-                    paddingBottom: 2,
-                  }),
-                }}
+                styles={selectStyles}
               />
             </div>
           </div>
@@ -416,7 +278,7 @@ const JobForm = () => {
         <div className="pt-4 w-full items-end justify-end flex">
           <button
             type="submit"
-            className="flex items-center gap-1 p-4 h-6 rounded-md bg-[#1b2231] text-white text-[10px]"
+            className="flex items-center gap-1 px-3 h-6 rounded-md bg-[#1b2231] text-white text-[10px]"
           >
             <IoMdSave className="text-[12px]" />
             Save
