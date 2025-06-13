@@ -2,9 +2,13 @@ import { useState } from "react";
 import { Search } from "lucide-react";
 import MenuItem from "../menu-Item/menu";
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
+import logo from "../../assets/logo/logo-hr.png"; 
+
 
 function SideNav() {
   const [collapsed, setCollapsed] = useState(false);
+ 
+
 
   return (
     <div
@@ -21,7 +25,7 @@ function SideNav() {
           className={`transition-all duration-700 object-contain ${
             collapsed ? "w-10 h-10" : "w-[160px] h-10"
           }`}
-          src="src\assets\logo\logo-hr.png"
+          src={logo}
           alt="Logo"
         />
 
