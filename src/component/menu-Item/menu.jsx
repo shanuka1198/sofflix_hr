@@ -39,7 +39,7 @@ const menu = [
         children: [
           {
             name: "Profiles",
-            path: "/admin/employee/profiles", // ✅ lowercase fixed
+            path: "/admin/employee/profiles",
             icon: <FaUserCircle />,
           },
           {
@@ -151,58 +151,115 @@ export default function SidebarMenu({ collapsed }) {
     }));
   };
 
+ 
+  const renderChildrenCollapsed = (children, level = 0) => (
+    <List component="div" disablePadding sx={{ pl: 3 }}>
+      {children.map((child) => {
+        const hasGrandChildren = child.children && child.children.length > 0;
+        const isOpen = openItems[child.name];
+        return (
+          <React.Fragment key={child.name}>
+            <ListItemButton
+              onClick={() => {
+                if (hasGrandChildren) {
+                  handleToggle(child.name);
+                } else if (child.path) {
+                  navigate(child.path);
+                }
+              }}
+              sx={{
+                justifyContent: "center",
+                height: 36,
+                minHeight: 36,
+                px: 0,
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: "auto", color: "black" }}>
+                {React.cloneElement(child.icon, { style: { fontSize: 14 } })}
+              </ListItemIcon>
+            </ListItemButton>
+
+            {/* Grandchildren in collapsed mode */}
+            {hasGrandChildren && isOpen && renderChildrenCollapsed(child.children, level + 1)}
+          </React.Fragment>
+        );
+      })}
+    </List>
+  );
+
   const renderMenu = (items, level = 0) =>
-    items.map((item) => (
-      <React.Fragment key={item.name}>
-        <ListItemButton
-          onClick={() => {
-            if (item.children) {
-              handleToggle(item.name);
-            } else if (item.path) {
-              navigate(item.path);
-            }
-          }}
-          sx={{
-            pl: 2 + level * 2,
-            height: 28,
-            fontSize: "12px",
-          }}
-        >
-          <Box
+    items.map((item) => {
+      const hasChildren = item.children && item.children.length > 0;
+      const isOpen = openItems[item.name];
+
+      return (
+        <React.Fragment key={item.name}>
+          <ListItemButton
+            onClick={() => {
+              if (hasChildren) {
+                handleToggle(item.name);
+              } else if (item.path) {
+                navigate(item.path);
+              }
+            }}
             sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: collapsed ? "center" : "flex-start",
-              gap: collapsed ? 0 : 1,
-              flexGrow: 1,
+              pl: 2 + level * 2,
+              height: 36,
+              fontSize: "12px",
+              transition: "all 0.3s ease",
             }}
           >
-            <ListItemIcon sx={{ minWidth: "auto", color: "black" }}>
-              {React.cloneElement(item.icon, { style: { fontSize: 14 } })}
-            </ListItemIcon>
-            {!collapsed && (
-              <ListItemText
-                primary={item.name}
-                primaryTypographyProps={{ fontSize: "11px" }}
-                sx={{ m: 0 }}
-              />
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: collapsed ? "center" : "flex-start",
+                gap: collapsed ? 0 : 1,
+                flexGrow: 1,
+                transition: "all 0.3s ease",
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: "auto",
+                  color: "black",
+                  transition: "all 0.3s ease",
+                }}
+              >
+                {React.cloneElement(item.icon, { style: { fontSize: 14 } })}
+              </ListItemIcon>
+
+              {!collapsed && (
+                <ListItemText
+                  primary={item.name}
+                  primaryTypographyProps={{ fontSize: "11px" }}
+                  sx={{ m: 0, opacity: 1, transition: "opacity 0.3s ease" }}
+                />
+              )}
+            </Box>
+
+            {!collapsed && hasChildren && (
+              isOpen ? <ExpandLess fontSize="small" /> : <ExpandMore fontSize="small" />
             )}
-          </Box>
+          </ListItemButton>
 
-          {!collapsed && item.children && (
-            openItems[item.name] ? <ExpandLess fontSize="small" /> : <ExpandMore fontSize="small" />
+  
+          {hasChildren && !collapsed && (
+            <Collapse
+              in={isOpen}
+              timeout="auto"
+              unmountOnExit
+            >
+              <List component="div" disablePadding>
+                {renderMenu(item.children, level + 1)}
+              </List>
+            </Collapse>
           )}
-        </ListItemButton>
 
-        {item.children && !collapsed && (
-          <Collapse in={openItems[item.name]} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              {renderMenu(item.children, level + 1)}
-            </List>
-          </Collapse>
-        )}
-      </React.Fragment>
-    ));
+          {hasChildren && collapsed && isOpen && renderChildrenCollapsed(item.children, level + 1)}
+        </React.Fragment>
+      );
+    });
 
   return (
     <List sx={{ color: "#554c4c", width: "100%", fontSize: "12px" }}>
